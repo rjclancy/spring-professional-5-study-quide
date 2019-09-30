@@ -35,11 +35,11 @@ ApplicationContext context =
 new AnnotationConfigWebApplicationContext();
 ```
 ### Can you describe the lifecycle of a Spring Bean in an ApplicationContext? 
-1.BeanDefinition creation&nbsp;
-2.Customizing BeanDefinitions by BeanFactoryPostProcessor&nbsp;
-3.Custom FactoryBeans creation&nbsp;
-4.BeanFactory instantiates beans instances&nbsp;
-5.Beans customization by BeanPostProcessor&nbsp;
+1.BeanDefinition creation<br />
+2.Customizing BeanDefinitions by BeanFactoryPostProcessor<br />
+3.Custom FactoryBeans creation<br />
+4.BeanFactory instantiates beans instances<br />
+5.Beans customization by BeanPostProcessor<br />
 ### How are you going to create an ApplicationContext in an integration test? 
 ### What is the preferred way to close an application context? Does Spring Boot do this for you? 
  • Can you describe: 
