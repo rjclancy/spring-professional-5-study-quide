@@ -14,7 +14,41 @@ The Application Context is Spring's advanced container. Similar to BeanFactory, 
 The ApplicationContext includes all functionality of the BeanFactory, It is generally recommended over BeanFactory. BeanFactory can still be used for lightweight applications like mobile devices or applet-based applications.
 
 ### How are you going to create a new instance of an ApplicationContext? 
+```
+// Loading XML configuration from the class path
+ApplicationContext context = 
+new ClassPathXmlApplicationContext("bean-definitions.xml");
+// Loading XML configuration from the file
+ApplicationContext context = 
+new FileSystemXmlApplicationContext("path/to/bean-definitions.xml");
+```
+```
+// Loading XML configuration from the file
+ApplicationContext context = 
+new FileSystemXmlApplicationContext("path/to/bean-definitions.xml");
+// Loading Java based configuration
+ApplicationContext context = 
+new AnnotationConfigApplicationContext(BeanDefinitions.class);
+```
+```
+// Loading Java based configuration
+ApplicationContext context = 
+new AnnotationConfigApplicationContext(BeanDefinitions.class);
+// Loading Java based configuration of the web application
+ApplicationContext context = 
+new AnnotationConfigWebApplicationContext();
+```
+```
+// Loading Java based configuration of the web application
+ApplicationContext context = 
+new AnnotationConfigWebApplicationContext();
+```
 ### Can you describe the lifecycle of a Spring Bean in an ApplicationContext? 
+1.BeanDefinition creation
+2.Customizing BeanDefinitions by BeanFactoryPostProcessor
+3.Custom FactoryBeans creation
+4.BeanFactory instantiates beans instances
+5.Beans customization by BeanPostProcessor
 ### How are you going to create an ApplicationContext in an integration test? 
 ### What is the preferred way to close an application context? Does Spring Boot do this for you? 
  • Can you describe: 
