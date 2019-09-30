@@ -216,7 +216,11 @@ Starters are a set of convenient dependency descriptors that you can include in 
 ### How do you access the properties defined in the property files? 
 ### What properties do you have to define in order to configure external MySQL? 
 ### How do you configure default schema and initial data? 
-### What is a fat far? How is it different from the original jar? 
+### What is a fat far? How is it different from the original jar?
+Basically, a fat jar (also known as uber-jar) is a self-sufficient archive which contains both classes and dependencies needed to run an application.
+
+By default, Boot creates a jar file – but if we change the packaging property in pom.xml to war, Maven will instead naturally build a war.
+
 ### What is the difference between an embedded container and a WAR? 
 ### What embedded containers does Spring Boot support? 
 
