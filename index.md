@@ -18,30 +18,21 @@ The ApplicationContext includes all functionality of the BeanFactory, It is gene
 // Loading XML configuration from the class path
 ApplicationContext context = 
 new ClassPathXmlApplicationContext("bean-definitions.xml");
-// Loading XML configuration from the file
-ApplicationContext context = 
-new FileSystemXmlApplicationContext("path/to/bean-definitions.xml");
 ```
 ```
 // Loading XML configuration from the file
 ApplicationContext context = 
 new FileSystemXmlApplicationContext("path/to/bean-definitions.xml");
-// Loading Java based configuration
+```
+```
+// Loading XML configuration from the file
 ApplicationContext context = 
-new AnnotationConfigApplicationContext(BeanDefinitions.class);
+new FileSystemXmlApplicationContext("path/to/bean-definitions.xml");
 ```
 ```
 // Loading Java based configuration
 ApplicationContext context = 
 new AnnotationConfigApplicationContext(BeanDefinitions.class);
-// Loading Java based configuration of the web application
-ApplicationContext context = 
-new AnnotationConfigWebApplicationContext();
-```
-```
-// Loading Java based configuration of the web application
-ApplicationContext context = 
-new AnnotationConfigWebApplicationContext();
 ```
 ### Can you describe the lifecycle of a Spring Bean in an ApplicationContext? 
 1.BeanDefinition creation
