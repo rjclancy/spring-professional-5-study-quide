@@ -25,14 +25,14 @@ ApplicationContext context =
 new FileSystemXmlApplicationContext("path/to/bean-definitions.xml");
 ```
 ```
-// Loading XML configuration from the file
-ApplicationContext context = 
-new FileSystemXmlApplicationContext("path/to/bean-definitions.xml");
-```
-```
 // Loading Java based configuration
 ApplicationContext context = 
 new AnnotationConfigApplicationContext(BeanDefinitions.class);
+```
+```
+// Loading Java based configuration of the web application
+ApplicationContext context = 
+new AnnotationConfigWebApplicationContext();
 ```
 ### Can you describe the lifecycle of a Spring Bean in an ApplicationContext? 
 1.BeanDefinition creation
@@ -248,12 +248,14 @@ Monitoring our app, gathering metrics, understanding traffic or the state of our
 ### What are the Health Indicators that are provided out of the box? 
 ### What is the Health Indicator status? 
 ### What are the Health Indicator statuses that are provided out of the box 
-### How do you change the Health Indicator status severity order? 
+### How do you change the Health Indicator status severity order?
+
+## Spring Boot Testing
 ### Why do you want to leverage 3rd-party external monitoring system? Spring Boot Testing 
 ### When do you want to use @SpringBootTest annotation? 
 ### What does @SpringBootTest auto-configure? 
 ### What dependencies does spring-boot-starter-test brings to the classpath? 
 ### How do you perform integration testing with @SpringBootTest for a web application? 
-### When do you want to use @WebMvcTest? What does it auto###configure? 
+### When do you want to use @WebMvcTest? What does it auto-configure? 
 ### What are the differences between @MockBean and @Mock? 
-### When do you want @DataJpaTest for? What does it auto###configure? 
+### When do you want @DataJpaTest for? What does it auto-configure? 
