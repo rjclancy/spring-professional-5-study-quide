@@ -83,6 +83,12 @@
 ### Is the JDBC template able to participate in an existing transaction? 
 ### What is a transaction isolation level? How many do we have and how are they ordered? 
 ### What is @EnableTransactionManagement for? 
+Enables Spring's annotation-driven transaction management capability, similar to the support found in Spring's <tx:*> XML namespace. To be used on @Configuration classes as follows
+`@Configuration
+ @EnableTransactionManagement
+ public class AppConfig {
+ }
+ `
 ### What does transaction propagation mean? 
 ### What happens if one @Transactional annotated method is calling another @Transactional annotated method on the same object instance? 
 ### Where can the @Transactional annotation be used? What is a typical usage if you put it at class level? 
