@@ -103,18 +103,10 @@ Enables Spring's annotation-driven transaction management capability, similar to
 
 ## Spring Data JPA 
 ### What is a Repository interface?
-An instant repository, also known as a Spring Data repository, is a repository that need no implementation and that supports the basic CRUD (create, read, update and delete) operations. Such a repository is declared as an interface that typically extend the Repository interface or an interface extending the Repository interface. The Repository uses Java generics and takes two type arguments; an entity type and a type of the primary key of entities. 
-### How do you define a Repository interface? Why is it an interface not a class? 
-Spring JPA generates the implementing class code for you. Behind the scenes, the types of the primary key, and JPA Entity that you supply in the interface template gives it enough information for basic CRUD methods. With the Spring Data repository interfaces in place annotate a Spring configuration class with an annotation, @EnableJpaRepositories in the case of Spring Data JPA, to enable the discovery and creation of repositories. 
-The first and most obvious reason for using an interface to define a Spring Data repository is that there usually is no need for implementation of the methods defined in the interface.
-Repositories are defined as interfaces in order for Spring Data to be able to use the JDK dynamic proxy mechanism to create the proxy objects that intercept calls to repositories. This also allows for supplying a custom base repository implementation class that will act as a (custom) base class for all the Spring Data repositories in the application. 
+### How do you define a Repository interface? Why is it an interface not a class?  
 ### What is the naming convention for finder methods in a Repository interface? 
-Finder method names always start with “find”. Optionally, “First” can be added after “find” in order to retrieve only the first found entity. When retrieving only one single entity, the finder method will return null if no matching entity is found. Alternatively the return-type of the method can be declared to use the Java Optional wrapper to indicate that a result may be absent. If a count is supplied after the “First”, for example “findFirst10”, then the count number of entities first found will be the result. 
-### How are Spring Data repositories implemented by Spring at runtime? 
-For a Spring Data repository a JDK dynamic proxy is created which intercepts all calls to the repository. The default behavior is to route calls to the default repository implementation, which in Spring Data JPA is the SimpleJpaRepository class. It is possible to customize either the implementation of one specific repository type or customize the implementation used for all repositories. 
+### How are Spring Data repositories implemented by Spring at runtime?  
 ### What is @Query used for? 
-The @Query annotation allows for specifying a query to be used with a Spring Data JPA repository method. This allows for customizing the query used for the annotated repository method or supplying a query that is to be used for a repository method that do not adhere to the finder method naming convention described earlier. 
-
 ## Spring MVC and the Web Layer 
 ### MVC is an abbreviation for a design pattern. What does it stand for and what is the idea behind it? 
 ### What is the DispatcherServlet and what is it used for? 
@@ -182,11 +174,6 @@ Spring Boot is a project gathering a number of modules under a common umbrella. 
 Does not generate code. Provides a set of managed dependencies that have been verified to work together. Provides a set of managed Maven plug-ins configured to produce certain artifacts. 
 ### Why is it “opinionated”? 
 ### What things affect what Spring Boot sets up? 
-Spring Boot detects the dependencies available on the classpath and configures Spring beans accordingly. There are a number of annotations, examples are @ConditionalOnClass, @ConditionalOnBean, @ConditionalOnMissingBean and @ConditionalOnMissingClass, that allows for applying conditions to Spring configuration classes or Spring bean declaration methods in such classes. 
-Examples: 
-•	A Spring bean is to be created only if a certain dependency is available on the classpath. Use @ConditionalOnClass and supply a class contained in the dependency in question. 
-•	A Spring bean is to be created only if there is no bean of a certain type or with a certain name created. 
-Use @ConditionalOnMissingBean and specify name or type of bean to check. 
 ### What is a Spring Boot starter POM? Why is it useful? 
 Starters are a set of convenient dependency descriptors that you can include in your application
 ### Spring Boot supports both properties and YML files. Would you recognize and understand them if you saw them? 
@@ -203,15 +190,11 @@ Starters are a set of convenient dependency descriptors that you can include in 
 ## Spring Boot Auto Configuration 
 ### How does Spring Boot know what to configure? 
 ### What does @EnableAutoConfiguration do? 
-The @EnableAutoConfiguration annotation enables Spring Boot auto-configuration. As earlier, Spring Boot autoconfiguration attempts to create and configure Spring beans based on the dependencies available on the class-path to allow developers to quickly get started with different technologies in a Spring Boot application and reducing boilerplate code and configuration. 
 ### What does @SpringBootApplication do? 
-The @SpringBootApplication is a convenience###annotation that can be applied to Spring Java configuration classes. The @SpringBootApplication is equivalent to the three annotations @Configuration, @EnableAutoConfiguration and @ComponentScan. 
+The @SpringBootApplication is a convenience-annotation that can be applied to Spring Java configuration classes. The @SpringBootApplication is equivalent to the three annotations @Configuration, @EnableAutoConfiguration and @ComponentScan. 
 ### Does Spring Boot do component scanning? Where does it look by default? 
-1.	Spring Boot does not do component scanning unless a configuration class, annotated with @Configuration, that is also annotated with the @ComponentScan annotation or an annotation, for instance @SpringBootApplication, that is annotated with the @ComponentScan annotation. 
-2.	If none of the above elements are used, component scanning will take place using the package in which the configuration class annotated with @ComponentScan as the base package. 
 ### How are DataSource and JdbcTemplate auto-configured? 
 ### What is spring.factories file for? 
-The file should list your configuration classes under the EnableAutoConfiguration key, as shown in the following example:
 ### How do you customize Spring auto configuration? 
 To create a custom auto-configuration, we need to create a class annotated as @Configuration and register it.
 Add it to > resources/META-INF/spring.factories:
@@ -220,8 +203,7 @@ Add it to > resources/META-INF/spring.factories:
 ## Spring Boot Actuator 
 ### What value does Spring Boot Actuator provide? 
 Actuator brings production-ready features to our application.
-Monitoring our app, gathering metrics, understanding traffic or the state of our database becomes trivial with this dependency.
-The main benefit of this library is that we can get production grade tools without having to actually implement these features ourselves.
+Monitoring our app, gathering metrics, understanding traffic or the state of our database becomes trivial with this dependency. The main benefit of this library is that we can get production grade tools without having to actually implement these features ourselves.
 ### What are the two protocols you can use to access actuator endpoints? 
 ### What are the actuator endpoints that are provided out of the box? 
 ### What is info endpoint for? How do you supply data? 
