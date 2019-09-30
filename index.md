@@ -6,8 +6,13 @@
 In software engineering, dependency injection is a technique whereby one object (or static method) supplies the dependencies of another object. A dependency is an object that can be used (a service).
 ### What is an interface and what are the advantages of making use of them in Java? 
 A particular advantage of using interface in Java is that it allows multiple inheritance. The full power of Interface is utilized when dependency injection techniques is used to inject required implementation on run time.
-### Why are they recommended for Spring beans? 
-### What is meant by “application-context? 
+### Why are they recommended for Spring beans?
+When Spring beans are implementing interfaces, it is very easy to change the application functionality. You can simply exchange entire beans by changing the Spring configuration, but you don't have to make any changes to the code.
+### What is meant by "application-context"? 
+The Application Context is Spring's advanced container. Similar to BeanFactory, it can load bean definitions, wire beans together, and dispense beans upon request. Additionally, it adds more enterprise-specific functionality such as the ability to resolve textual messages from a properties file and the ability to publish application events to interested event listeners. This container is defined by org.springframework.context.ApplicationContext interface.
+
+The ApplicationContext includes all functionality of the BeanFactory, It is generally recommended over BeanFactory. BeanFactory can still be used for lightweight applications like mobile devices or applet-based applications.
+
 ### How are you going to create a new instance of an ApplicationContext? 
 ### Can you describe the lifecycle of a Spring Bean in an ApplicationContext? 
 ### How are you going to create an ApplicationContext in an integration test? 
