@@ -2,8 +2,10 @@
 
 ## Container, Dependency, and IOC
 
-### What is dependency injection and what are the advantages? 
+### What is dependency injection and what are the advantages?
+In software engineering, dependency injection is a technique whereby one object (or static method) supplies the dependencies of another object. A dependency is an object that can be used (a service).
 ### What is an interface and what are the advantages of making use of them in Java? 
+A particular advantage of using interface in Java is that it allows multiple inheritance. The full power of Interface is utilized when dependency injection techniques is used to inject required implementation on run time.
 ### Why are they recommended for Spring beans? 
 ### What is meant by “application-context? 
 ### How are you going to create a new instance of an ApplicationContext? 
