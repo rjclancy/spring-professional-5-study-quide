@@ -6,7 +6,7 @@
  ### What is dependency injection and what are the advantages? 
  ### What is an interface and what are the advantages of making use of them in Java? 
  ### Why are they recommended for Spring beans? 
- ### What is meant by “application###context? 
+ ### What is meant by “application-context? 
  ### How are you going to create a new instance of an ApplicationContext? 
  ### Can you describe the lifecycle of a Spring Bean in an ApplicationContext? 
  ### How are you going to create an ApplicationContext in an integration test? 
@@ -24,9 +24,9 @@
  ### What is a BeanPostProcessor and how is it different to a BeanFactoryPostProcessor? What do they do? When are they called? 
  ### What is an initialization method and how is it declared on a Spring bean? 
  ### What is a destroy method, how is it declared and when is it called? 
- ### Consider how you enable JSR###250 annotations like @PostConstruct and @PreDestroy? When/how will they get called? 
+ ### Consider how you enable JSR-250 annotations like @PostConstruct and @PreDestroy? When/how will they get called? 
  ### How else can you define an initialization or destruction method for a Spring bean? 
- ### What does component###scanning do? 
+ ### What does component-scanning do? 
  ### What is the behavior of the annotation @Autowired with regards to field injection, constructor injection and method injection? 
  ### What do you have to do, if you would like to inject something into a private field? How does this impact testing? 
  ### How does the @Qualifier annotation complement the use of @Autowired? 
@@ -226,7 +226,7 @@ Add it to > resources/META-INF/spring.factories:
  ### What are the examples of @Conditional annotations? How are they used? 
 ## Spring Boot Actuator 
  ### What value does Spring Boot Actuator provide? 
-In essence, Actuator brings production-ready features to our application.
+Actuator brings production-ready features to our application.
 Monitoring our app, gathering metrics, understanding traffic or the state of our database becomes trivial with this dependency.
 The main benefit of this library is that we can get production grade tools without having to actually implement these features ourselves.
 
@@ -244,7 +244,7 @@ The main benefit of this library is that we can get production grade tools witho
  ### How do you change the Health Indicator status severity order? 
  ### Why do you want to leverage 3rd-party external monitoring system? Spring Boot Testing 
  ### When do you want to use @SpringBootTest annotation? 
- ### What does @SpringBootTest auto-configure? March 2019 © Copyright 2019 Pivotal Software, Inc. All rights reserved 11 
+ ### What does @SpringBootTest auto-configure? 
  ### What dependencies does spring-boot-starter-test brings to the classpath? 
  ### How do you perform integration testing with @SpringBootTest for a web application? 
  ### When do you want to use @WebMvcTest? What does it auto###configure? 
