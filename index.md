@@ -169,8 +169,20 @@ public class AppConfig {
 
 ## REST 
 ### What does REST stand for? 
+Representational State Transfer
 ### What is a resource? 
+Java supports javax.annotation.Resource annotation using JSR-250 that is applied on component class and fields or methods of component class. When @Resource is applied on fields or methods, the container injects the requested resource. Spring supports @Resource annotation. It behaves same as @Autowired annotation of spring. @Autowired annotation automatically injects the required bean. @Resource has name attribute. It can be used in two ways.
+
+example
+```
+@Resource(name="person")
+private Person person; 
+```
+Note: name attribute is not required
+
 ### What does CRUD mean? 
+CREATE,READ,UPDATE,DELETE
+
 ### Is REST secure? What can you do to secure it? 
 ### Is REST scalable and/or interoperable? 
 ### Which HTTP methods does REST use? 
