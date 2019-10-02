@@ -272,3 +272,8 @@ Monitoring our app, gathering metrics, understanding traffic or the state of our
 ### When do you want to use @WebMvcTest? What does it auto-configure? 
 ### What are the differences between @MockBean and @Mock? 
 ### When do you want @DataJpaTest for? What does it auto-configure? 
+
+# Resources for the above content
+### http://springcertified.com/2018/12/01/how-are-you-going-to-create-an-applicationcontext-in-an-integration-test-test/
+### https://spring.io/docs/reference
+### https://www.ivankrizsan.se/2018/06/19/new-book-core-spring-5-certification-in-detail/
