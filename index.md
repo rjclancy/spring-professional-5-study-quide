@@ -131,7 +131,7 @@ public class AppConfig {
 ### Why is the term "unit of work" so important and why does JDBC AutoCommit violate this pattern? 
 ### What do you need to do in Spring if you would like to work with JPA? 
 ### Are you able to participate in a given transaction in Spring while working with JPA? 
-### Which PlatformTransactionManager(s) can you use with JPA? March 2019 © Copyright 2019 Pivotal Software, Inc. All rights reserved 8 
+### Which PlatformTransactionManager(s) can you use with JPA?
 ### What do you have to configure to use JPA with Spring? How does Spring Boot make this easier? 
 
 ## Spring Data JPA 
@@ -165,7 +165,7 @@ public class AppConfig {
 ### Why do you need method security? What type of object is typically secured at the method level (think of its purpose not its Java type). 
 ### What do @PreAuthorized and @RolesAllowed do? What is the difference between them? 
 ### How are these annotations implemented? 
-### In which security annotation are you allowed to use SpEL? March 2019 © Copyright 2019 Pivotal Software, Inc. All rights reserved 9 
+### In which security annotation are you allowed to use SpEL?
 
 ## REST 
 ### What does REST stand for? 
