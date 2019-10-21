@@ -41,6 +41,13 @@ new AnnotationConfigWebApplicationContext();
 4.BeanFactory instantiates beans instances<br />
 5.Beans customization by BeanPostProcessor<br />
 ### How are you going to create an ApplicationContext in an integration test? 
+```
+@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = {AppConfig.class, ITConfig.class}) 
+public class myIT {}
+```
+You can also use @WebContextConfiguration
+
 ### What is the preferred way to close an application context? Does Spring Boot do this for you? 
  • Can you describe: 
 ### Dependency injection using Java configuration? 
