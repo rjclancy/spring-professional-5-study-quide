@@ -48,14 +48,60 @@ public class myIT {}
 ```
 You can also use @WebContextConfiguration
 
-### What is the preferred way to close an application context? Does Spring Boot do this for you? 
- • Can you describe: 
+### What is the preferred way to close an application context? Does Spring Boot do this for you?
+For non-web application, you should register a shutdown hook to ensure that ApplicationContext will be closed gracefully and it calls the relevant destroy methods on singleton beans (remember, that destroy callbacks are not called on prototype-scoped beans). You can register shutdown hook via ConfigurableApplicationContext. If you are using Spring Boot, then it will register this hook automatically for you.
+example: 
+```
+ConfigurableApplicationContext ctx = new
+  SpringApplicationBuilder(Application.class).web(WebApplicationType.NONE).run();
+System.out.println("Spring Boot application started");
+ctx.getBean(TerminateBean.class);
+ctx.close();
+```
+
+### Can you describe: 
 ### Dependency injection using Java configuration? 
+The central artifact in Spring's new Java-configuration support is the @Configuration-annotated class. These classes consist principally of @Bean-annotated methods that define instantiation, configuration, and initialization logic for objects that are managed by the Spring IoC container.
+Annotating a class with the @Configuration indicates that the class can be used by the Spring IoC container as a source of bean definitions. The simplest possible @Configuration class would read as follows:
+```
+@Configuration
+public class AppConfig {}
+```
+An application may use one @Configuration-annotated class, or many. @Configuration is meta-annotated as a @Component. Therefore, @Configuration-annotated classes are candidates for component-scanning and can also take advantage of @Autowired annotations at the field and method levels, but not at the constructor level. @Configuration-annotated classes must also have a default constructor. You can wire externalized values into @Configuration-annotated classes with the @Value annotation.
+
 ### Dependency injection using annotations (@Autowired)? 
-### Component scanning, Stereotypes? 
-### Scopes for Spring beans? What is the default scope? 
-### Are beans lazily or eagerly instantiated by default? How do you alter this behavior? 
+In Spring, you can use @Autowired annotation to auto wire bean on the setter method, constructor or a field. Moreover, it can autowired property in a particular bean. The @Autowired annotation is auto wire the bean by matching data type.
+
+### Component scanning, Stereotypes?
+```
+@Component, @Controller, @Service, and @Repository
+```
+Spring can automatically detect your stereotype classes and instantiate beans defined inside those classes. To allow autodetection, it is needed to add the @ComponentScan annotation on your @Configuration class.
+
+### Scopes for Spring beans? What is the default scope?
+The default scope for a Spring bean is singleton
+
+### Are beans lazily or eagerly instantiated by default? How do you alter this behavior?
+Beans are eagerly instantiated by default. You can change this behavour by adding the @Lazy annotation to a bean
+```
+@Bean
+@Lazy
+public MyBean myBean(){}
+```
+
 ### What is a property source? How would you use @PropertySource? 
+Spring @PropertySource annotation is used to provide properties file to Spring Environment. Default properties are stored in application.properties.
+```
+@Configuration
+	@PropertySources({
+		@PropertySource("classpath:config.properties"),
+		@PropertySource("classpath:db.properties")
+	})
+	public class AppConfig {
+		//...
+	}
+```
+
 ### What is a BeanFactoryPostProcessor and what is it used for? When is it invoked? 
 ### Why would you define a static @Bean method? 
 ### What is a ProperySourcesPlaceholderConfigurer used for? 
