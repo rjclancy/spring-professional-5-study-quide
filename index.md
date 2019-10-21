@@ -4,10 +4,13 @@
 
 ### What is dependency injection and what are the advantages?
 In software engineering, dependency injection is a technique whereby one object (or static method) supplies the dependencies of another object. A dependency is an object that can be used (a service).
+
 ### What is an interface and what are the advantages of making use of them in Java? 
 A particular advantage of using interface in Java is that it allows multiple inheritance. The full power of Interface is utilized when dependency injection techniques is used to inject required implementation on run time.
+
 ### Why are they recommended for Spring beans?
 When Spring beans are implementing interfaces, it is very easy to change the application functionality. You can simply exchange entire beans by changing the Spring configuration, but you don't have to make any changes to the code.
+
 ### What is meant by "application-context"? 
 The Application Context is Spring's advanced container. Similar to BeanFactory, it can load bean definitions, wire beans together, and dispense beans upon request. Additionally, it adds more enterprise-specific functionality such as the ability to resolve textual messages from a properties file and the ability to publish application events to interested event listeners. This container is defined by org.springframework.context.ApplicationContext interface.
 
@@ -266,11 +269,24 @@ CREATE,READ,UPDATE,DELETE
 ### If you saw an example using RestTemplate would you understand what it is doing? 
 
 ## Testing 
-### Do you use Spring in a unit test? 
-### What type of tests typically use Spring? 
-### How can you create a shared application context in a JUnit integration test? 
+### Do you use Spring in a unit test?
+A unit test tests one unit of functionality, a method in a class, a class or an entire module. The unit tested is tested in isolation outside of the environment for which it is intended. This means, among other things, that the Spring framework is not used to perform dependency injection in unit tests. Instead any dependencies are commonly replaced by mocks or stubs, which are created programmatically in the test-class, and set on the instance-under-test using setter-methods.
+Thus Spring is not commonly used in unit tests.
+
+### What type of tests typically use Spring?
+Integration tests
+
+### How can you create a shared application context in a JUnit integration test?
+If the question is regarding how to define a Spring application context in one single place which can be used in multiple JUnit integration tests then this can be accomplished using the @ContextConfiguration annotation. This annotation is used at class level in integration test classes and allows for specifying a number of @Configuration classes, or resource locations, used to load a Spring application context. In order to define a Spring application context in one single place that is later used by multiple integration tests a class that is a common superclass to all the integration tests classes can be defined and annotated with the @ContextConfiguration annotation.
+Subclasses will, as per default, inherit the @Configuration classes, resource locations and context initializers. Subclasses may append to the list of @Configuration classes or resource locations used to load a Spring application context for integration tests by specifying one or more @Configuration classes, resource locations or context initializers.
+
 ### When and where do you use @Transactional in testing? 
+The @Transactional annotation can be used in a test that alter some transactional resource, for example a database, that is to be restored to the state it had prior to the test being run. You can also use @Transactional at test method level
+
 ### How are mock frameworks such as Mockito or EasyMock used? 
+Mockito and EasyMock allows for dynamic creation of mock objects that can be used to mock collaborators of class(es) under test that are external to the system or trusted.
+A mock object is similar to a stub, in that it produces predetermined results when methods on the object are invoked.
+
 ### How is @ContextConfiguration used? 
 ### How does Spring Boot simplify writing tests? 
 ### What does @SpringBootTest do? How does it interact with @SpringBootApplication and @SpringBootConfiguration? 
@@ -279,8 +295,11 @@ CREATE,READ,UPDATE,DELETE
 ### What is Spring Boot? 
 Spring Boot is a project gathering a number of modules under a common umbrella. Some of the more central modules are: 
 ### What are the advantages of using Spring Boot? 
-Does not generate code. Provides a set of managed dependencies that have been verified to work together. Provides a set of managed Maven plug-ins configured to produce certain artifacts. 
-### Why is it “opinionated”? 
+Does not generate code. Provides a set of managed dependencies that have been verified to work together. Provides a set of managed Maven plug-ins configured to produce certain artifacts.
+
+### Why is it “opinionated”?
+By design, the software is limiting and encourages the designer into doing things their way. In other words, Spring thinks you should develop an application the way Spring framework thinks best but dosnt force you to do so.
+
 ### What things affect what Spring Boot sets up? 
 ### What is a Spring Boot starter POM? Why is it useful? 
 Starters are a set of convenient dependency descriptors that you can include in your application
@@ -325,6 +344,7 @@ Add it to > resources/META-INF/spring.factories:
 ### What value does Spring Boot Actuator provide? 
 Actuator brings production-ready features to our application.
 Monitoring our app, gathering metrics, understanding traffic or the state of our database becomes trivial with this dependency. The main benefit of this library is that we can get production grade tools without having to actually implement these features ourselves.
+
 ### What are the two protocols you can use to access actuator endpoints? 
 ### What are the actuator endpoints that are provided out of the box? 
 ### What is info endpoint for? How do you supply data? 
