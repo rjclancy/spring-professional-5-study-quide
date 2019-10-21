@@ -266,7 +266,13 @@ CREATE,READ,UPDATE,DELETE
 ### Do you need Spring MVC in your classpath? 
 ### What Spring Boot starter would you use for a Spring REST application? 
 ### What are the advantages of the RestTemplate? 
-### If you saw an example using RestTemplate would you understand what it is doing? 
+### If you saw an example using RestTemplate would you understand what it is doing?
+The RestTemplate is the basic Spring class for simultaneous client-side HTTP access. It simplifies the interaction with HTTP servers and enforces RESTful systems. It is very related to the JdbcTemplate, JmsTemplate and the various other templates. 
+
+Why should we use RestTemplate:-
+Basically, RestTemplate is used to make HTTP Rest Calls (REST Client).
+If we want to make an HTTP Call, we need to create an HttpClient, pass request and form parameters, setup accept headers and perform unmarshalling of response, all by yourself, Spring Rest Templates tries to take the pain away by abstracting all these details from you.
+It is thread-safe, once created you can use it as a callbacks to customize its works.
 
 ## Testing 
 ### Do you use Spring in a unit test?
