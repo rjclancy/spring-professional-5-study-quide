@@ -103,9 +103,19 @@ Spring @PropertySource annotation is used to provide properties file to Spring E
 ```
 
 ### What is a BeanFactoryPostProcessor and what is it used for? When is it invoked? 
-### Why would you define a static @Bean method? 
-### What is a ProperySourcesPlaceholderConfigurer used for? 
-### What is a BeanPostProcessor and how is it different to a BeanFactoryPostProcessor? What do they do? When are they called? 
+The BeanFactoryPostProcessor is a special kind of object registered in ApplicationContext . Its main purpose is to alter BeanFactory before the beans are instantiated. That means, that BeanFactoryPostProcessor operates on raw bean definitions, not on the bean instances.
+After loading the bean definitions from all styles of configurations, BeanFactoryPostProcessor comes into the picture to modify the definition of some beans, and then the container instantiates the beans. Finally, BeanPostProcessor works on the beans, and it can modify and change the bean object. This is the initialization phase.
+
+### Why would you define a static @Bean method?
+By marking a bean as static, it can be invoked without causing instantiation of its declaring @Configuration class, thus avoiding lifecycle conflicts. Note however that static @Bean methods will not be enhanced for scoping and AOP semantics. This works out in BFPP cases, as they are not typically referenced by other @Bean methods. As a reminder, a WARN-level log message will be issued for any non-static @Bean methods having a return type assignable to BeanFactoryPostProcessor.
+
+### What is a ProperySourcesPlaceholderConfigurer used for?
+The PropertySourcesPlaceholderConfigurer is Springs internal implementation of the BeanFactoryPostProcessor . Its main purpose is to resolve ${...} placeholders within bean definition property values and @Value annotations with appropriate values loaded from the property sources.
+
+### What is a BeanPostProcessor and how is it different to a BeanFactoryPostProcessor? What do they do? When are they called?
+The BeanFactoryPostProcessor executes before bean Object instantiation (ie at the time Applicationcontext container is initialized)
+BeanPostprocessor is executed after the bean object is created, as it can be executed before init() and after init().
+
 ### What is an initialization method and how is it declared on a Spring bean? 
 ### What is a destroy method, how is it declared and when is it called? 
 ### Consider how you enable JSR-250 annotations like @PostConstruct and @PreDestroy? When/how will they get called? 
