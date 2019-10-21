@@ -344,9 +344,30 @@ Monitoring our app, gathering metrics, understanding traffic or the state of our
 ### What does @SpringBootTest auto-configure? 
 ### What dependencies does spring-boot-starter-test brings to the classpath? 
 ### How do you perform integration testing with @SpringBootTest for a web application? 
-### When do you want to use @WebMvcTest? What does it auto-configure? 
-### What are the differences between @MockBean and @Mock? 
-### When do you want @DataJpaTest for? What does it auto-configure? 
+### When do you want to use @WebMvcTest? What does it auto-configure?
+Annotation that can be used for a Spring MVC test that focuses only on Spring MVC components.
+Using this annotation will disable full auto-configuration and instead apply only configuration relevant to MVC tests (i.e. @Controller, @ControllerAdvice, @JsonComponent, Converter/GenericConverter, Filter, WebMvcConfigurer and HandlerMethodArgumentResolver beans but not @Component, @Service or @Repository beans).
+
+By default, tests annotated with @WebMvcTest will also auto-configure Spring Security and MockMvc (include support for HtmlUnit WebClient and Selenium WebDriver). For more fine-grained control of MockMVC the @AutoConfigureMockMvc annotation can be used.
+
+Typically @WebMvcTest is used in combination with @MockBean or @Import to create any collaborators required by your @Controller beans.
+
+### What are the differences between @MockBean and @Mock?
+@MockBean will mock and replace any existing bean of the same type in the application context. If no bean of the same type is defined, a new one will be added.
+
+@Mock is a shorthand for the Mockito.mock() method. As well, we should only use it in a test class. Unlike the mock() method, we need to enable Mockito annotations to use this annotation.
+
+We can do this either by using the MockitoJUnitRunner to run the test or calling the MockitoAnnotations.initMocks() method explicitly.
+```
+@RunWith(MockitoJUnitRunner.class)
+public class ServiceTest {
+     
+    @Mock
+    Service service;
+```
+
+### When do you want @DataJpaTest for? What does it auto-configure?
+With the @DataJpaTest annotation, Spring Boot provides a convenient way to set up an environment with an embedded database to test our database queries against.
 
 # Resources for the above content
 ### http://springcertified.com/2018/12/01/how-are-you-going-to-create-an-applicationcontext-in-an-integration-test-test/
