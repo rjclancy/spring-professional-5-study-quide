@@ -155,9 +155,9 @@ The @PreDestroy annotation is used on methods as a callback notification to sign
 ### How else can you define an initialization or destruction method for a Spring bean?
 Through xml
 ```
-<bean id="initAndDestroyExampleByConfiguration" name="initAndDestroyExampleByConfiguration" 
+<bean id="initAndDestroyServiceConfiguration" name="initAndDestroyServiceConfiguration" 
       init-method="postInitMethod" destroy-method="preDestroyMethod" 
-      class="com.dev2qa.example.spring.bean.initdestroy.InitAndDestroyExampleByConfiguration"> 
+      class="com.ronan.example.spring.bean.initdestroy.InitAndDestroyServiceConfiguration"> 
 </bean>
 ```
 
