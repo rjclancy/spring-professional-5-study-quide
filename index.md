@@ -119,20 +119,104 @@ The PropertySourcesPlaceholderConfigurer is Springs internal implementation of t
 The BeanFactoryPostProcessor executes before bean Object instantiation (ie at the time Applicationcontext container is initialized)
 BeanPostprocessor is executed after the bean object is created, as it can be executed before init() and after init().
 
-### What is an initialization method and how is it declared on a Spring bean? 
-### What is a destroy method, how is it declared and when is it called? 
-### Consider how you enable JSR-250 annotations like @PostConstruct and @PreDestroy? When/how will they get called? 
-### How else can you define an initialization or destruction method for a Spring bean? 
-### What does component-scanning do? 
-### What is the behavior of the annotation @Autowired with regards to field injection, constructor injection and method injection? 
-### What do you have to do, if you would like to inject something into a private field? How does this impact testing? 
-### How does the @Qualifier annotation complement the use of @Autowired? 
+### What is an initialization method and how is it declared on a Spring bean?
+In Spring, you can use init-method and destroy-method as attribute in bean configuration file for bean to perform certain actions upon initialization and destruction.
+Implementing the org.springframework.beans.factory.InitializingBean interface allows a bean to perform initialization work after all necessary properties on the bean have been set by the container. The InitializingBean interface specifies exactly one method:
+
+void afterPropertiesSet() throws Exception;
+Generally, the use of the InitializingBean interface can be avoided and is actually discouraged since it unnecessarily couples the code to Spring. As an alternative, bean definitions provide support for a generic initialization method to be specified. In the case of XML-based configuration metadata, this is done using the 'init-method' attribute. For example, the following definition:
+```
+<bean id="exampleInitBean" class="examples.ExampleBean" init-method="init"/>
+public class ExampleBean {   
+    public void init() {
+        // do some initialization work
+    }
+}
+```
+...is exactly the same as...
+```
+<bean id="exampleInitBean" class="examples.AnotherExampleBean"/>
+
+public class AnotherExampleBean implements InitializingBean {   
+    public void afterPropertiesSet() {
+        // do some initialization work
+    }
+}
+```
+
+### What is a destroy method, how is it declared and when is it called?
+Implementing the org.springframework.beans.factory.DisposableBean interface allows a bean to get a callback when the container containing it is destroyed. The DisposableBean interface specifies a single method:
+```void destroy() throws Exception;```
+
+### Consider how you enable JSR-250 annotations like @PostConstruct and @PreDestroy? When/how will they get called?
+The @PostConstruct annotation is used on a method that needs to be executed after dependency injection is done to perform any initialization.
+The @PreDestroy annotation is used on methods as a callback notification to signal that the instance is in the process of being removed by the container.
+
+### How else can you define an initialization or destruction method for a Spring bean?
+Through xml
+```
+<bean id="initAndDestroyExampleByConfiguration" name="initAndDestroyExampleByConfiguration" 
+      init-method="postInitMethod" destroy-method="preDestroyMethod" 
+      class="com.dev2qa.example.spring.bean.initdestroy.InitAndDestroyExampleByConfiguration"> 
+</bean>
+```
+
+### What does component-scanning do?
+Spring is a dependency injection framework. It is all about beans and wiring in dependencies.
+The first step of defining Spring Beans is by adding the right annotation - @Component or @Service or @Repository.
+However, Spring does not know about the bean unless it knows where to search for it.
+This part of “telling Spring where to search” is called a Component Scan.
+You define the packages that have to be scanned.
+
+Once you define a Component Scan for a package, Spring would search the package and all its sub packages for components/beans.
+@SpringBootApplication defines an automatic component scan of the package the annotaion resides.
+
+### What is the behavior of the annotation @Autowired with regards to field injection, constructor injection and method injection?
+This annotation is applied to fields, setter methods, and constructors. The @Autowired annotation injects object dependency implicitly. When you use @Autowired on fields and pass the values for the fields using the property name, Spring will automatically assign the fields with the passed values. You can even use @Autowired  on private properties.
+
+When you use @Autowired on setter methods, Spring tries to perform it by Type autowiring on the method. You are instructing Spring that it should initiate this property using a setter method where you can add your custom code.
+
+### What do you have to do, if you would like to inject something into a private field? How does this impact testing?
+There are two basic cases of injecting a value or reference into a private field; either the source- code containing the private field to be injected can be modified or it cannot be modified. The latter case typically occurs with third-party libraries and generated code. Some of the following is only applicable in the case where the source-code can be modified.
+
+### How does the @Qualifier annotation complement the use of @Autowired?
+The @Qualifier annotation adds additional control of the selection of the bean to inject if there are multiple beans of the same type in the Spring application context.
+The @Qualifier annotation can be used at three different locations:
+• At injection points.
+• At bean definitions.
+• At annotation definitions.
+This creates a custom qualifier annotation.
+
 ### What is a proxy object and what are the two different types of proxies Spring can create? 
+The Spring framework is able to create two types of proxy objects:
+• JDK Dynamic Proxy
+• CGLIB Proxy
+A proxy object is an object that have the same methods, at least the public methods, as the object it proxies. The purpose of this is to make the proxy indistinguishable from the object it proxies. The proxy object contains a reference to the object it proxies. When a reference to the original, proxied, object is requested, a reference to the proxy object is supplied. 
+
 ### What are the limitations of these proxies (per type)? 
-### What is the power of a proxy object and where are the disadvantages? 
-### What does the @Bean annotation do? 
-### What is the default bean id if you only use @Bean? How can you override this? 
+### What is the power of a proxy object and where are the disadvantages?
+Can add behavior to existing beans i.e. Transaction management, logging, security.
+Makes it possible to separate concerns such as logging, security etc from business logic.
+
+### What does the @Bean annotation do?
+@Bean annotation indicates that the annotated method produces a bean to be managed by the Spring container.
+
+### What is the default bean id if you only use @Bean? How can you override this?
+```
+@Bean
+public Service service(){
+}
+```
+the above bean name is service. To change it to myService we could override with the following:
+```
+@Bean(name = "myService")
+public Service service(){
+}
+```
+
 ### Why are you not allowed to annotate a final class with @Configuration 
+The Spring container will create a subclass of each class annotated with @Configuration when creating an application context using CGLIB. Final classes cannot be subclassed.
+
 ### How do @Configuration annotated classes support singleton beans? 
 ### Why can’t @Bean methods be final either? 
 ### How do you configure profiles? What are possible use cases where they might be useful? 
