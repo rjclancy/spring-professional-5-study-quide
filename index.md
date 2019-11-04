@@ -249,19 +249,58 @@ The Spring container will create a subclass of each class annotated with @Config
 ### What is a ProceedingJoinPoint? When is it used?
 
 ## Data Management: JDBC, Transactions 
-### What is the difference between checked and unchecked exceptions? 
-### Why does Spring prefer unchecked exceptions? 
-### What is the data access exception hierarchy? 
-### How do you configure a DataSource in Spring? Which bean is very useful for development/test databases? 
-### What is the Template design pattern and what is the JDBC template? 
+### What is the difference between checked and unchecked exceptions?
+From Spring > 'Checked exceptions' represent errors outside the control of the program. If a program throws an 'Unchecked exception', it reflects some error inside the program logic.
+
+### Why does Spring prefer unchecked exceptions?
+Unchecked exceptions gives a developer the freedom to decide where to implement error handling.
+
+### What is the data access exception hierarchy?
+This exception hierarchy aims to let user code find and handle the kind of error encountered without knowing the details of the particular data access API in use (e.g. JDBC). Thus it is possible to react to an optimistic locking failure without knowing that JDBC is being used.
+
+### How do you configure a DataSource in Spring? Which bean is very useful for development/test databases?
+Spring Boot uses an opinionated algorithm to scan for and configure a DataSource. This allows us to easily get a fully-configured DataSource implementation by default.
+
+In addition, Spring Boot automatically configures a lightning-fast connection pool — either HikariCP, Apache Tomcat, or Commons DBCP, in that order, depending on which are on the classpath.
+
+### What is the Template design pattern and what is the JDBC template?
+The Template Design Pattern is a behavior pattern and, as the name suggests, it provides a template or a structure of an algorithm which is used by users. A user provides its own implementation without changing the algorithm’s structure.
+
+The central class of the Spring JDBC abstraction framework is the JdbcTemplate class that includes the most common logic in using the JDBC API to access data, such as handling the creation of connection, statement creation, statement execution, and release of resource.
+
 ### What is a callback? What are the three JdbcTemplate callback interfaces that can be used with queries? What is each used for? (You would not have to remember the interface names in the exam, but you should kn ow what they do if you see them in a code sample). 
-### Can you execute a plain SQL statement with the JDBC template? 
-### When does the JDBC template acquire (and release) a connection, for every method called or once per template? Why? 
-### How does the JdbcTemplate support generic queries? How does it return objects and lists/maps of objects? 
+### Can you execute a plain SQL statement with the JDBC template?
+Short answer yes
+```
+statement.executeQuery("SELECT * FROM student")
+```
+
+### When does the JDBC template acquire (and release) a connection, for every method called or once per template? Why?
+JDBC template will acquire a connect before and after evert method call and release after every method call.
+
+### How does the JdbcTemplate support generic queries? How does it return objects and lists/maps of objects?
+
 ### What is a transaction? What is the difference between a local and a global transaction? 
-### Is a transaction a cross cutting concern? How is it implemented by Spring? 
-### How are you going to define a transaction in Spring? 
-### What does @Transactional do? What is the PlatformTransactionManager? 
+Transaction is an indivisible unit of work. 
+
+Transactions are described in terms of ACID properties:Atomic, Consistent, Isolated, Durable.
+
+local transaction is a simple transaction that is about one single database; whilst a global one is application server managed and spreads across many components/ technologies.
+
+### Is a transaction a cross cutting concern? How is it implemented by Spring?
+Yes and its implemented using Spring AOP
+
+### How are you going to define a transaction in Spring?
+You can define transactions in 2 ways: Declarative(xml) way or Programmatic(annotated) way
+
+### What does @Transactional do? What is the PlatformTransactionManager?
+When using proxies, you should apply the @Transactional annotation only to methods with public visibility. If you do annotate protected, private or package-visible methods with the @Transactional annotation, no error is raised, but the annotated method does not exhibit the configured transactional settings. Consider the use of AspectJ (see below) if you need to annotate non-public methods.
+
+Spring recommends that you only annotate concrete classes (and methods of concrete classes) with the @Transactional annotation, as opposed to annotating interfaces. You certainly can place the @Transactional annotation on an interface (or an interface method), but this works only as you would expect it to if you are using interface-based proxies. The fact that Java annotations are not inherited from interfaces means that if you are using class-based proxies ( proxy-target-class="true") or the weaving-based aspect ( mode="aspectj"), then the transaction settings are not recognized by the proxying and weaving infrastructure, and the object will not be wrapped in a transactional proxy, which would be decidedly bad.
+
+PlatformTransactionManager is the central interface in Spring's transaction infrastructure. Applications can use this directly, but it is not primarily meant as API: Typically, applications will work with either TransactionTemplate or declarative transaction demarcation through AOP.
+For implementors, it is recommended to derive from the provided AbstractPlatformTransactionManager class, which pre-implements the defined propagation behavior and takes care of transaction synchronization handling. Subclasses have to implement template methods for specific states of the underlying transaction, for example: begin, suspend, resume, commit.
+
 ### Is the JDBC template able to participate in an existing transaction? 
 ### What is a transaction isolation level? How many do we have and how are they ordered? 
 ### What is @EnableTransactionManagement for? 
