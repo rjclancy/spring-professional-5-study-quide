@@ -460,13 +460,15 @@ The package of the class that is annotated with @EnableAutoConfiguration, usuall
 Auto-configuration classes are regular Spring Configuration beans. They are located using the SpringFactoriesLoader mechanism (keyed against this class). Generally auto-configuration beans are @Conditional beans (most often using @ConditionalOnClass and @ConditionalOnMissingBean annotations).
 
 ### What does @SpringBootApplication do? 
-The @SpringBootApplication is a convenience-annotation that can be applied to Spring Java configuration classes. The @SpringBootApplication is equivalent to the three annotations @Configuration, @EnableAutoConfiguration and @ComponentScan. 
+The @SpringBootApplication is a convenience-annotation that can be applied to Spring Java configuration classes. The @SpringBootApplication is equivalent to the three annotations @Configuration, @EnableAutoConfiguration and @ComponentScan.
+
 ### Does Spring Boot do component scanning? Where does it look by default? 
 ### How are DataSource and JdbcTemplate auto-configured? 
 ### What is spring.factories file for? 
 ### How do you customize Spring auto configuration? 
 To create a custom auto-configuration, we need to create a class annotated as @Configuration and register it.
 Add it to > resources/META-INF/spring.factories:
+
 ### What are the examples of @Conditional annotations? How are they used? 
 
 ## Spring Boot Actuator 
@@ -475,17 +477,68 @@ Actuator brings production-ready features to our application.
 Monitoring our app, gathering metrics, understanding traffic or the state of our database becomes trivial with this dependency. The main benefit of this library is that we can get production grade tools without having to actually implement these features ourselves.
 
 ### What are the two protocols you can use to access actuator endpoints? 
-### What are the actuator endpoints that are provided out of the box? 
-### What is info endpoint for? How do you supply data? 
-### How do you change logging level of a package using loggers endpoint? 
-### How do you access an endpoint using a tag? 
-### What is metrics for? 
-### How do you create a custom metric with or without tags? 
+HTTP, JMX
+### What are the actuator endpoints that are provided out of the box?
+autoconfig,
+beans,
+configprops,
+dump,
+env,
+health,
+info,
+metrics,
+mappings,
+shutdown,
+trace,
+logger
+
+### What is info endpoint for? How do you supply data?
+Displays arbitrary application info.
+```
+info.app.myproperty="Property description"
+```
+
+### How do you change logging level of a package using loggers endpoint?
+To configure a given logger, POST a partial entity to the resource’s URI, as shown in the following example:
+```
+{
+    "configuredLevel": "DEBUG"
+}
+```
+
+### How do you access an endpoint using a tag?
+You can also add any number of tag=KEY:VALUE query parameters to the end of the URL to dimensionally drill down on a meter, e.g. /actuator/metrics/jvm.memory.max?tag=area:nonheap
+
+### What is metrics for?
+Spring Boot Actuator provides dependency management and auto-configuration for Micrometer, an application metrics facade that supports numerous monitoring systems, like AppOptics, Atlas, Datadog, Dynatrace, Elastic, Ganglia
+
+Spring Boot auto-configures a composite MeterRegistry and adds a registry to the composite for each of the supported implementations that it finds on the classpath. Having a dependency on micrometer-registry-{system} in your runtime classpath is enough for Spring Boot to configure the registry.
+
+### How do you create a custom metric with or without tags?
+To register custom metrics, inject MeterRegistry into your component, as shown in the following example:
+```
+class Dictionary {
+    private final List<String> words = new CopyOnWriteArrayList<>();
+    Dictionary(MeterRegistry registry) {
+        registry.gaugeCollectionSize("dictionary.size", Tags.empty(), this.words);
+    }
+    // …
+}
+```
+
 ### What is Health Indicator? 
-### What are the Health Indicators that are provided out of the box? 
-### What is the Health Indicator status? 
+A HealthIndicator provides actual health information, including a Status
+
+### What are the Health Indicators that are provided out of the box?
+
 ### What are the Health Indicator statuses that are provided out of the box 
+DOWN SERVICE_UNAVAILABLE (503)
+OUT_OF_SERVICE SERVICE_UNAVAILABLE (503)
+UP No mapping by default, so http status is 200
+UNKNOWN No mapping by default, so http status is 200
+
 ### How do you change the Health Indicator status severity order?
+management.health.status.order=FATAL, DOWN, OUT_OF_SERVICE, UNKNOWN, UP
 
 ## Spring Boot Testing
 ### Why do you want to leverage 3rd-party external monitoring system? Spring Boot Testing 
