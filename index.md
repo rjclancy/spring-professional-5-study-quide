@@ -477,11 +477,16 @@ Basically, a fat jar (also known as uber-jar) is a self-sufficient archive which
 
 By default, Boot creates a jar file – but if we change the packaging property in pom.xml to war, Maven will instead naturally build a war.
 
-### What is the difference between an embedded container and a WAR? 
+### What is the difference between an embedded container and a WAR?
+Most server-side Java applications (e.g. web or service-oriented) are intended to run within a container. The traditional way to package these apps for distribution is to bundle them as a WAR file. ... Rather than being deployed to a container, an embedded container is deployed within the application itself!
+
 ### What embedded containers does Spring Boot support? 
+Tomcat (default), Jetty and Undertow
 
 ## Spring Boot Auto Configuration 
-### How does Spring Boot know what to configure? 
+### How does Spring Boot know what to configure?
+Simply put, the Spring Boot autoconfiguration represents a way to automatically configure a Spring application based on the dependencies that are present on the classpath. This can make development faster and easier by eliminating the need for defining certain beans that are included in the auto-configuration classes.
+
 ### What does @EnableAutoConfiguration do?
 Enable auto-configuration of the Spring Application Context, attempting to guess and configure beans that you are likely to need. Auto-configuration classes are usually applied based on your classpath and what beans you have defined. For example, if you have tomcat-embedded.jar on your classpath you are likely to want a TomcatServletWebServerFactory (unless you have defined your own ServletWebServerFactory bean).
 When using SpringBootApplication, the auto-configuration of the context is automatically enabled and adding this annotation has therefore no additional effect.
@@ -495,7 +500,9 @@ Auto-configuration classes are regular Spring Configuration beans. They are loca
 ### What does @SpringBootApplication do? 
 The @SpringBootApplication is a convenience-annotation that can be applied to Spring Java configuration classes. The @SpringBootApplication is equivalent to the three annotations @Configuration, @EnableAutoConfiguration and @ComponentScan.
 
-### Does Spring Boot do component scanning? Where does it look by default? 
+### Does Spring Boot do component scanning? Where does it look by default?
+With Spring, we use the @ComponentScan annotation along with @Configuration annotation to specify the packages that we want to be scanned. @ComponentScan without arguments tells Spring to scan the current package and all of its sub-packages.
+
 ### How are DataSource and JdbcTemplate auto-configured? 
 ### What is spring.factories file for? 
 ### How do you customize Spring auto configuration? 
