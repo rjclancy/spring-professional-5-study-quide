@@ -411,20 +411,48 @@ Note: name attribute is not required
 CREATE,READ,UPDATE,DELETE
 
 ### Is REST secure? What can you do to secure it? 
-### Is REST scalable and/or interoperable? 
-### Which HTTP methods does REST use? 
-### What is an HttpMessageConverter? 
-### Is REST normally stateless? 
+### Is REST scalable and/or interoperable?
+Yes, REST is Scalable and interoperable. It doesn't mandate a specific choice of technology either at client or server end. You can use Java, C++, Python or JavaScript to create RESTful Web Services and Consume them at the client end.
+
+### Which HTTP methods does REST use?
+The primary or most-commonly-used HTTP verbs (or methods, as they are properly called) are POST, GET, PUT, PATCH, and DELETE. These correspond to create, read, update, and delete (or CRUD) operations, respectively.
+
+### What is an HttpMessageConverter?
+Internally Spring MVC uses a component called a HttpMessageConverter to convert the Http request to an object representation and back. A set of default converters are automatically registered which supports a whole range of different resource representation formats - json, xml for instance
+
+### Is REST normally stateless?
+REST is stateless and doesn't maintain any states between the requests.
+
 ### What does @RequestMapping do? 
-### Is @Controller a stereotype? Is @RestController a stereotype? 
-### What is a stereotype annotation? What does that mean? 
+@RequestMapping can be applied to the controller class as well as methods. 
+You use the @RequestMapping annotation to map URLs such as /appointments onto an entire class or a particular handler method.
+
+### Is @Controller a stereotype? Is @RestController a stereotype?
+@RestController(No) is a convenience annotation that is itself annotated with @Controller(Yes) 
+
+### What is a stereotype annotation? What does that mean?
+A stereotype allows a framework developer to identify such a role and declare some common metadata for beans with that role in a central place.
+
 ### What is the difference between @Controller and @RestController? 
-### When do you need @ResponseBody? 
-### What are the HTTP status return codes for a successful GET, POST, PUT or DELETE operation? 
-### When do you need @ResponseStatus? 
-### Where do you need @ResponseBody? What about @RequestBody? Try not to get these muddled up! 
+The @RestController annotation in Spring MVC is nothing but a combination of @Controller and @ResponseBody
+
+### When do you need @ResponseBody?
+@ResponseBody means that the controller's return value should be used as the body of the response
+
+### What are the HTTP status return codes for a successful GET, POST, PUT or DELETE operation?
+For a PUT request: HTTP 200 or HTTP 204 should imply "resource updated successfully". For a DELETE request: HTTP 200 or HTTP 204 should imply "resource deleted successfully". HTTP 202 can also be returned which would imply that the instruction was accepted by the server and the "resource was marked for deletion"
+
+### When do you need @ResponseStatus?
+We can use @ResponseStatus to mark a method or an exception class with a status code and reason that should be returned.
+
+### Where do you need @ResponseBody? What about @RequestBody? Try not to get these muddled up!
+@RequestBody : Annotation indicating a method parameter should be bound to the body of the HTTP request.
+@ResponseBody annotation can be put on a method and indicates that the return type should be written straight to the HTTP response body (and not placed in a Model, or interpreted as a view name).
+
 ### If you saw example Controller code, would you understand what it is doing? Could you tell if it was annotated correctly? 
 ### Do you need Spring MVC in your classpath? 
+The short answer is: yes — you need Spring MVC in your Java application's classpath to develop RESTful web services using the Spring framework.
+
 ### What Spring Boot starter would you use for a Spring REST application? 
 ### What are the advantages of the RestTemplate? 
 ### If you saw an example using RestTemplate would you understand what it is doing?
