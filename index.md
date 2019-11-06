@@ -38,11 +38,16 @@ ApplicationContext context =
 new AnnotationConfigWebApplicationContext();
 ```
 ### Can you describe the lifecycle of a Spring Bean in an ApplicationContext? 
-1.BeanDefinition creation<br />
-2.Customizing BeanDefinitions by BeanFactoryPostProcessor<br />
-3.Custom FactoryBeans creation<br />
-4.BeanFactory instantiates beans instances<br />
-5.Beans customization by BeanPostProcessor<br />
+-Bean definition is loaded from the configuration
+-Bean definition is processed by the BeanFactoryPostProcessors
+-Bean instance is created. Required dependencies are provided and set by the container
+-All optional dependencies are provided and set by the container
+-Bean is processed by the BeanPostProcessor#postProcessBeforeInitialization()
+-Initialization callbacks are executed (in order @PostConstruct annotation, InitializingBean#afterPropertiesSet() method and custom configured init() method).
+-Bean is processed by the BeanPostProcessor#postProcessAfterInitialization()
+-The container and all the beans are now ready to be used.
+-When the application is stopped, destroy callbacks are executed (in order @PreDestroy annotation, DisposableBean#destroy() method and custom configured destroy() method). Destroy callbacks are not called for the Prototype scoped beans!
+
 ### How are you going to create an ApplicationContext in an integration test? 
 ```
 @RunWith(SpringRunner.class)
