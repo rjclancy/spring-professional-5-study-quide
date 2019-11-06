@@ -136,7 +136,6 @@ public class ExampleBean {
 ...is exactly the same as...
 ```
 <bean id="exampleInitBean" class="examples.AnotherExampleBean"/>
-
 public class AnotherExampleBean implements InitializingBean {   
     public void afterPropertiesSet() {
         // do some initialization work
@@ -312,9 +311,17 @@ public class AppConfig {
 }
  ```
 ### What does transaction propagation mean? 
+Defines how transactions relate to each other. Common options:
+ -Required: Code will always run in a transaction. Creates a new transaction or reuses one if available.
+ -Requires_new: Code will always run in a new transaction. Suspends the current transaction if one exists.
+ 
 ### What happens if one @Transactional annotated method is calling another @Transactional annotated method on the same object instance? 
+If you call a method with a @Transactional annotation from a method with @Transactional within the same instance, then the called methods transactional behavior will not have any impact on the transaction. But if you call a method with a transaction definition from another method with a transaction definition, and they are in different instances, then the code in the called method will follow the transaction definitions given in the called method.
+
 ### Where can the @Transactional annotation be used? What is a typical usage if you put it at class level? 
-### What does declarative transaction management mean? 
+### What does declarative transaction management mean?
+Declarative transaction management approach allows you to manage the transaction with the help of configuration instead of hard coding in your source code. This means that you can separate transaction management from the business code. You only use annotations or XML-based configuration to manage the transactions.
+
 ### What is the default rollback policy? How can you override it? 
 ### What is the default rollback policy in a JUnit test, when you use the @RunWith(SpringJUnit4ClassRunner.class) in JUnit 4 or @ExtendWith(SpringExtension.class) in JUnit 5, and annotate your @Test annotated method with @Transactional? 
 ### Why is the term "unit of work" so important and why does JDBC AutoCommit violate this pattern? 
@@ -325,10 +332,36 @@ public class AppConfig {
 
 ## Spring Data JPA 
 ### What is a Repository interface?
-### How do you define a Repository interface? Why is it an interface not a class?  
-### What is the naming convention for finder methods in a Repository interface? 
-### How are Spring Data repositories implemented by Spring at runtime?  
-### What is @Query used for? 
+### How do you define a Repository interface? Why is it an interface not a class? 
+The central interface in the Spring Data repository abstraction is Repository. It takes the domain class to manage as well as the ID type of the domain class as type arguments. This interface acts primarily as a marker interface to capture the types to work with and to help you to discover interfaces that extend this one. The CrudRepository provides sophisticated CRUD functionality for the entity class that is being managed.
+```
+public interface CrudRepository<T, ID> extends Repository<T, ID> {
+
+  <S extends T> S save(S entity);      
+
+  Optional<T> findById(ID primaryKey); 
+
+  Iterable<T> findAll();               
+
+  long count();                        
+
+  void delete(T entity);               
+
+  boolean existsById(ID primaryKey);   
+
+  // … more functionality omitted.
+}
+```
+
+### What is the naming convention for finder methods in a Repository interface?
+findByX
+
+### How are Spring Data repositories implemented by Spring at runtime?
+First of all, there's no code generation going on, which means: no CGLib, no byte-code generation at all. The fundamental approach is that a JDK proxy instance is created programmatically using Spring's ProxyFactory API to back the interface and a MethodInterceptor intercepts all calls to the instance and routes the method into the appropriate places
+
+### What is @Query used for?
+The @Query annotation declares finder queries directly on repository methods. While similar @NamedQuery is used on domain classes, Spring Data JPA @Query annotation is used on Repository interface. This frees the domain classes from persistence specific information, which is a good thing.
+
 ## Spring MVC and the Web Layer 
 ### MVC is an abbreviation for a design pattern. What does it stand for and what is the idea behind it? 
 ### What is the DispatcherServlet and what is it used for? 
