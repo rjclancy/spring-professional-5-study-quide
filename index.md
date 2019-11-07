@@ -648,6 +648,16 @@ class Dictionary {
 A HealthIndicator provides actual health information, including a Status
 
 ### What are the Health Indicators that are provided out of the box?
+CassandraHealthIndicator
+DiskSpaceHealthIndicator
+DataSourceHealthIndicator
+ElasticsearchHealthIndicator
+JmsHealthIndicator
+MailHealthIndicator
+MongoHealthIndicator
+RabbitHealthIndicator
+RedisHealthIndicator
+SolrHealthIndicator
 
 ### What are the Health Indicator statuses that are provided out of the box 
 DOWN SERVICE_UNAVAILABLE (503)
@@ -660,9 +670,32 @@ management.health.status.order=FATAL, DOWN, OUT_OF_SERVICE, UNKNOWN, UP
 
 ## Spring Boot Testing
 ### Why do you want to leverage 3rd-party external monitoring system? Spring Boot Testing 
-### When do you want to use @SpringBootTest annotation? 
+### When do you want to use @SpringBootTest annotation?
+By default, @SpringBootTest  does not start a server. Spring Boot provides a @SpringBootTest annotation which can be used as an alternative to the standard spring-test @ContextConfiguration annotation when you need Spring Boot features. The annotation works by creating the ApplicationContext used in your tests via SpringApplication.
+
+You can use the webEnvironment attribute of @SpringBootTest to further refine how your tests will run:
+
+MOCK — Loads a WebApplicationContext and provides a mock servlet environment. Embedded servlet containers are not started when using this annotation. If servlet APIs are not on your classpath this mode will transparently fallback to creating a regular non-web ApplicationContext. Can be used in conjunction with @AutoConfigureMockMvc for MockMvc-based testing of your application.
+RANDOM_PORT — Loads an EmbeddedWebApplicationContext and provides a real servlet environment. Embedded servlet containers are started and listening on a random port.
+DEFINED_PORT — Loads an EmbeddedWebApplicationContext and provides a real servlet environment. Embedded servlet containers are started and listening on a defined port (i.e from your application.properties or on the default port 8080).
+NONE — Loads an ApplicationContext using SpringApplication but does not provide any servlet environment (mock or otherwise).
+
 ### What does @SpringBootTest auto-configure? 
 ### What dependencies does spring-boot-starter-test brings to the classpath? 
+JUnit 5 (including the vintage engine for backward compatibility with JUnit 4: The de-facto standard for unit testing Java applications.
+
+Spring Test & Spring Boot Test: Utilities and integration test support for Spring Boot applications.
+
+AssertJ: A fluent assertion library.
+
+Hamcrest: A library of matcher objects (also known as constraints or predicates).
+
+Mockito: A Java mocking framework.
+
+JSONassert: An assertion library for JSON.
+
+JsonPath: XPath for JSON.
+
 ### How do you perform integration testing with @SpringBootTest for a web application? 
 ### When do you want to use @WebMvcTest? What does it auto-configure?
 Annotation that can be used for a Spring MVC test that focuses only on Spring MVC components.
@@ -687,7 +720,7 @@ public class ServiceTest {
 ```
 
 ### When do you want @DataJpaTest for? What does it auto-configure?
-With the @DataJpaTest annotation, Spring Boot provides a convenient way to set up an environment with an embedded database to test our database queries against.
+With the @DataJpaTest annotation, Spring Boot provides a convenient way to set up an environment with an embedded database to test our database queries against.To test Spring Data JPA repositories, or any other JPA-related components for that matter, Spring Boot provides the @DataJpaTest annotation. 
 
 # Resources for the above content
 ### http://springcertified.com/2018/12/01/how-are-you-going-to-create-an-applicationcontext-in-an-integration-test-test/
