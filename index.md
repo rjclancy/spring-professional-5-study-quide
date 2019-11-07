@@ -368,17 +368,58 @@ First of all, there's no code generation going on, which means: no CGLib, no byt
 The @Query annotation declares finder queries directly on repository methods. While similar @NamedQuery is used on domain classes, Spring Data JPA @Query annotation is used on Repository interface. This frees the domain classes from persistence specific information, which is a good thing.
 
 ## Spring MVC and the Web Layer 
-### MVC is an abbreviation for a design pattern. What does it stand for and what is the idea behind it? 
+### MVC is an abbreviation for a design pattern. What does it stand for and what is the idea behind it?
+MVC is an abbreviation for Model-View-Controller design pattern. This pattern is based upon the separation-of-concerns design principle that promotes handling different functionality at different layers and loose coupling between layers.
+
 ### What is the DispatcherServlet and what is it used for? 
+The DispatcherServlet is a front controller like it provides a single entry point for a client request to Spring MVC web application and forwards request to Spring MVC controllers for processing.
+
 ### What is a web application context? What extra scopes does it offer? 
+WebApplicationContext is a Spring application context for web applications.
+
+WebApplicationContext has all the properties of a regular Spring application contex, given that the WebApplicationContext interface extends the ApplicationContext interface
+
+WebApplicationContext can access the Servlet Context.
+
 ### What is the @Controller annotation used for? 
 ### How is an incoming request mapped to a controller and mapped to a method? 
-### What is the difference between @RequestMapping and @GetMapping? 
-### What is @RequestParam used for? 
-### What are the differences between @RequestParam and @PathVariable? 
-### What are some of the parameter types for a controller method? 
-### What other annotations might you use on a controller method parameter? (You can ignore form-handling annotations for this exam) 
+### What is the difference between @RequestMapping and @GetMapping?
+@GetMapping is a composed annotation that acts as a shortcut for @RequestMapping(method = RequestMethod.GET).
+@GetMapping is the newer annotaion. It supports consumes
+
+### What is @RequestParam used for?
+@RequestParam is a Spring annotation used to bind a web request parameter to a method parameter. It has the following optional elements: defaultValue - used as a fallback when the request parameter is not provided or has an empty value.
+
+### What are the differences between @RequestParam and @PathVariable?
+Both the the annotations have the significant purpose and use respectively. The key difference between @RequestParam and @PathVariable is that @RequestParam used for accessing the values of the query parameters where as @PathVariable used for accessing the values from the URI template.
+
+### What are some of the parameter types for a controller method?
+* ServletRequest or HttpServletRequest.
+* HttpSession. 
+* NativeWebRequest
+* Locale 
+* InputStream 
+* OutputStream
+* Principal
+* @PathVariable
+* @RequestParam 
+* @RequestHeader 
+* @RequestBody
+* @RequestPart 
+* HttpEntity<?>
+* Model/ModelMap
+* RedirectAttributes
+* BindingResult 
+* SessionStatus 
+* UriComponentsBuilder
+
 ### What are some of the valid return types of a controller method? 
+ModelAndView (Class)
+Model (Interface)
+Map.
+String.
+void.
+HttpHeaders.
 
 ## Security 
 ### What are authentication and authorization? Which must come first? 
@@ -390,9 +431,13 @@ The @Query annotation declares finder queries directly on repository methods. Wh
 ### Why is the usage of mvcMatcher recommended over antMatcher? 
 ### Does Spring Security support password hashing? What is salting? 
 ### Why do you need method security? What type of object is typically secured at the method level (think of its purpose not its Java type). 
-### What do @PreAuthorized and @RolesAllowed do? What is the difference between them? 
+### What do @PreAuthorized and @RolesAllowed do? What is the difference between them?
+@Secured and @RolesAllowed are the same the only difference is @RolesAllowed is a standard annotation (i.e. not only spring security) whereas @Secured is spring security only.
+@PreAuthorize is different in a way that it is more powerful then the other 2. It allows for SpEL expression for a more fine-grained control. Which to use well the simplest thing that could possible work, if you don’t need expression etc. go with the standard annotations to limit the dependency on spring classes. 
+
 ### How are these annotations implemented? 
 ### In which security annotation are you allowed to use SpEL?
+Both @PreAuthorize and @PostAuthorize annotations provide expression-based access control. Hence, predicates can be written using SpEL (Spring Expression Language)
 
 ## REST 
 ### What does REST stand for? 
