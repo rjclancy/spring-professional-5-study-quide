@@ -223,13 +223,56 @@ The Spring container will create a subclass of each class annotated with @Config
 
 ### How do @Configuration annotated classes support singleton beans? 
 ### Why can’t @Bean methods be final either? 
-### How do you configure profiles? What are possible use cases where they might be useful? 
-### Can you use @Bean together with @Profile? 
-### Can you use @Component together with @Profile? 
-### How many profiles can you have? 
-### How do you inject scalar/literal values into Spring beans? 
-### What is @Value used for? 
-### What is Spring Expression Language (SpEL for short)? 
+Spring creates dynamic proxies for classes annotated with @Configuration classes. Spring uses CGLIB to extend your class to create proxy. Hence, configuration classes or beans cannot be final.
+
+### How do you configure profiles? What are possible use cases where they might be useful?
+Profiles are a core feature of the framework – allowing us to map our beans to different profiles – for example, dev, test, prod. We can then activate different profiles in different environments to bootstrap just the beans we need.
+
+### Can you use @Bean together with @Profile?
+Short answer yes
+
+### Can you use @Component together with @Profile?
+Not sure //TODO
+### How many profiles can you have?
+You can have multipe profile troughout your code base
+
+### How do you inject scalar/literal values into Spring beans?
+Let’s say we have the following key-value pairs in a file app.properties:
+```
+app.string.property=hello
+app.integer.property=987
+app.floating.point.property=3.14159
+app.boolean.property=false
+To get access to these properties, we declare an application configuration in Java:
+```
+```
+@Configuration
+@ComponentScan
+@PropertySource("app.properties")
+public class AppConfig {}
+```
+
+### What is @Value used for?
+This annotation can be used for injecting values into fields in Spring-managed beans and it can be applied at 
+```
+field 
+constructor
+method
+```
+
+### What is Spring Expression Language (SpEL for short)?
+The Spring Expression Language (SpEL) is a powerful expression language that supports querying and manipulating an object graph at runtime. It can be used with XML or annotation-based Spring configurations.
+
+There are several operators available in the language:
+```
+Type	Operators
+Arithmetic	+, -, *, /, %, ^, div, mod
+Relational	<, >, ==, !=, <=, >=, lt, gt, eq, ne, le, ge
+Logical	and, or, not, &&, ||, !
+Conditional	?:
+Regex	matches
+```
+
 ### What is the Environment abstraction in Spring? 
 ### Where can properties in the environment come from – there are many sources for properties – check the documentation if not sure. Spring Boot adds even more. 
 ### What can you reference using SpEL? 
@@ -246,7 +289,9 @@ The Spring container will create a subclass of each class annotated with @Config
 ### What are they used for? 
 ### Which two advices can you use if you would like to try and catch exceptions? 
 ### What do you have to do to enable the detection of the @Aspect annotation? 
-### What does @EnableAspectJAutoProxy do? 
+### What does @EnableAspectJAutoProxy do?
+Enables support for handling components marked with AspectJ's @Aspect annotation
+
 ### If shown pointcut expressions, would you understand them? March 2019 © Copyright 2019 Pivotal Software, Inc. All rights reserved 7 
 ### For example, in the course we matched getter methods on Spring Beans, what would be the correct pointcut expression to match both getter and setter methods? 
 ### What is the JoinPoint argument used for? 
@@ -529,7 +574,14 @@ A mock object is similar to a stub, in that it produces predetermined results wh
 
 ### How is @ContextConfiguration used? 
 ### How does Spring Boot simplify writing tests? 
-### What does @SpringBootTest do? How does it interact with @SpringBootApplication and @SpringBootConfiguration? 
+### What does @SpringBootTest do? How does it interact with @SpringBootApplication and @SpringBootConfiguration?
+@SpringBootConfiguration is an alternative to the @Configuration annotation. The main difference is that @SpringBootConfiguration allows configuration to be automatically located. This can be especially useful for unit or integration tests.
+
+The recommendation is to only have one @SpringBootConfiguration or @SpringBootApplication for your application. Most applications will simply use @SpringBootApplication.
+
+With the @SpringBootTest annotation, Spring Boot provides a convenient way to start up an application context to be used in a test.
+
+@SpringBootTest by default starts searching in the current package of the test class and then searches upwards through the package structure, looking for a class annotated with @SpringBootConfiguration from which it then reads the configuration to create an application context. This class is usually our main application class since the @SpringBootApplication annotation includes the @SpringBootConfiguration annotation. It then creates an application context very similar to the one that would be started in a production environment.
 
 ## Spring Boot Intro 
 ### What is Spring Boot? 
@@ -545,7 +597,9 @@ By design, the software is limiting and encourages the designer into doing thing
 Starters are a set of convenient dependency descriptors that you can include in your application
 ### Spring Boot supports both properties and YML files. Would you recognize and understand them if you saw them? 
 ### Can you control logging with Spring Boot? How? 
-### Where does Spring Boot look for property file by default? 
+### Where does Spring Boot look for property file by default?
+By default, Spring searches for the property files at the root. If we have to specify a particular folder we can provide the location via searchPaths.
+
 ### How do you define profile specific property files? 
 ### How do you access the properties defined in the property files? 
 ### What properties do you have to define in order to configure external MySQL? 
@@ -597,6 +651,7 @@ Monitoring our app, gathering metrics, understanding traffic or the state of our
 ### What are the two protocols you can use to access actuator endpoints? 
 HTTP, JMX
 ### What are the actuator endpoints that are provided out of the box?
+```
 autoconfig,
 beans,
 configprops,
@@ -609,9 +664,12 @@ mappings,
 shutdown,
 trace,
 logger
+```
 
 ### What is info endpoint for? How do you supply data?
-Displays arbitrary application info.
+The info endpoint (http://localhost:8080/actuator/info) displays general information about your application obtained from build files like META-INF/build-info.properties or Git files like git.properties or through any environment property under the key info. You’ll learn how to tweak the output of this endpoint in the next section.
+
+By default, only the health and info endpoints are exposed over HTTP. That’s why the /actuator page lists only the health and info endpoints.
 ```
 info.app.myproperty="Property description"
 ```
@@ -648,6 +706,7 @@ class Dictionary {
 A HealthIndicator provides actual health information, including a Status
 
 ### What are the Health Indicators that are provided out of the box?
+```
 CassandraHealthIndicator
 DiskSpaceHealthIndicator
 DataSourceHealthIndicator
@@ -658,6 +717,7 @@ MongoHealthIndicator
 RabbitHealthIndicator
 RedisHealthIndicator
 SolrHealthIndicator
+```
 
 ### What are the Health Indicator statuses that are provided out of the box 
 DOWN SERVICE_UNAVAILABLE (503)
@@ -671,16 +731,26 @@ management.health.status.order=FATAL, DOWN, OUT_OF_SERVICE, UNKNOWN, UP
 ## Spring Boot Testing
 ### Why do you want to leverage 3rd-party external monitoring system? Spring Boot Testing 
 ### When do you want to use @SpringBootTest annotation?
-By default, @SpringBootTest  does not start a server. Spring Boot provides a @SpringBootTest annotation which can be used as an alternative to the standard spring-test @ContextConfiguration annotation when you need Spring Boot features. The annotation works by creating the ApplicationContext used in your tests via SpringApplication.
+Integration testing. By default, @SpringBootTest  does not start a server. Spring Boot provides a @SpringBootTest annotation which can be used as an alternative to the standard spring-test @ContextConfiguration annotation when you need Spring Boot features. The annotation works by creating the ApplicationContext used in your tests via SpringApplication.
 
 You can use the webEnvironment attribute of @SpringBootTest to further refine how your tests will run:
-
+```
 MOCK — Loads a WebApplicationContext and provides a mock servlet environment. Embedded servlet containers are not started when using this annotation. If servlet APIs are not on your classpath this mode will transparently fallback to creating a regular non-web ApplicationContext. Can be used in conjunction with @AutoConfigureMockMvc for MockMvc-based testing of your application.
 RANDOM_PORT — Loads an EmbeddedWebApplicationContext and provides a real servlet environment. Embedded servlet containers are started and listening on a random port.
 DEFINED_PORT — Loads an EmbeddedWebApplicationContext and provides a real servlet environment. Embedded servlet containers are started and listening on a defined port (i.e from your application.properties or on the default port 8080).
 NONE — Loads an ApplicationContext using SpringApplication but does not provide any servlet environment (mock or otherwise).
+```
 
-### What does @SpringBootTest auto-configure? 
+### What does @SpringBootTest auto-configure?
+```
+Uses SpringBootContextLoader as the default ContextLoader when no specific @ContextConfiguration(loader=...) is defined.
+Automatically searches for a @SpringBootConfiguration when nested @Configuration is not used, and no explicit classes are specified.
+Allows custom Environment properties to be defined using the properties attribute.
+Allows application arguments to be defined using the args attribute.
+Provides support for different webEnvironment modes, including the ability to start a fully running web server listening on a defined or random port.
+Registers a TestRestTemplate and/or WebTestClient bean for use in web tests that are using a fully running web server.
+```
+
 ### What dependencies does spring-boot-starter-test brings to the classpath? 
 JUnit 5 (including the vintage engine for backward compatibility with JUnit 4: The de-facto standard for unit testing Java applications.
 
@@ -697,6 +767,18 @@ JSONassert: An assertion library for JSON.
 JsonPath: XPath for JSON.
 
 ### How do you perform integration testing with @SpringBootTest for a web application? 
+Spring-Boot provides an @SpringBootTest annotation which provides spring-boot features over and above of the spring-test module. This annotation works by creating the ApplicationContext used in our tests through SpringApplication. It starts the embedded server, creates a web environment and then enables @Test methods to do integration testing.
+
+By default, @SpringBootTest  does not start a server. We need to add attribute webEnvironment to further refine how your tests run. It has several options:
+```
+MOCK(Default): Loads a web ApplicationContext and provides a mock web environment
+
+RANDOM_PORT: Loads a WebServerApplicationContext and provides a real web environment. The embedded server is started and listen on a random port. This is the one should be used for the integration test
+
+DEFINED_PORT: Loads a WebServerApplicationContext and provides a real web environment.
+```
+
+NONE: Loads an ApplicationContext by using SpringApplication but does not provide any web environment
 ### When do you want to use @WebMvcTest? What does it auto-configure?
 Annotation that can be used for a Spring MVC test that focuses only on Spring MVC components.
 Using this annotation will disable full auto-configuration and instead apply only configuration relevant to MVC tests (i.e. @Controller, @ControllerAdvice, @JsonComponent, Converter/GenericConverter, Filter, WebMvcConfigurer and HandlerMethodArgumentResolver beans but not @Component, @Service or @Repository beans).
@@ -721,6 +803,7 @@ public class ServiceTest {
 
 ### When do you want @DataJpaTest for? What does it auto-configure?
 With the @DataJpaTest annotation, Spring Boot provides a convenient way to set up an environment with an embedded database to test our database queries against.To test Spring Data JPA repositories, or any other JPA-related components for that matter, Spring Boot provides the @DataJpaTest annotation. 
+@DataJpaTest is used to test JPA repositories. It is used in combination with @RunWith(SpringRunner.class). The annotation disables full auto-configuration and applies only configuration relevant to JPA tests. By default, tests annotated with @DataJpaTest use an embedded in-memory database.
 
 # Resources for the above content
 ### http://springcertified.com/2018/12/01/how-are-you-going-to-create-an-applicationcontext-in-an-integration-test-test/
